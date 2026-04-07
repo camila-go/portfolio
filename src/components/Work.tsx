@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { projects } from '../data/site'
 
 const statusClass = {
@@ -27,10 +28,10 @@ export function Work() {
           {projects.map((p) => (
             <li key={p.id}>
               <article className="group grid gap-8 lg:grid-cols-[1.1fr_1fr] lg:items-start">
-                <div
-                  className="relative aspect-[16/10] w-full overflow-hidden rounded-3xl border border-cami-border/70 bg-cami-ink transition duration-300 group-hover:scale-[1.01] group-hover:border-cami-accent/40"
-                  role="img"
-                  aria-label={`Case study visual placeholder for ${p.title}`}
+                <Link
+                  to={`/work/${p.id}`}
+                  className="relative block aspect-[16/10] w-full overflow-hidden rounded-3xl border border-cami-border/70 bg-cami-ink transition duration-300 hover:scale-[1.01] hover:border-cami-accent/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cami-accent"
+                  aria-label={`Open case study: ${p.title}`}
                 >
                   <div
                     className={`absolute inset-0 bg-gradient-to-br ${p.accent} opacity-90`}
@@ -39,7 +40,7 @@ export function Work() {
                   <div className="absolute inset-0 flex items-center justify-center font-mono text-6xl font-semibold text-white/10 transition group-hover:text-white/20">
                     {p.index}
                   </div>
-                </div>
+                </Link>
                 <div>
                   <div className="flex flex-wrap items-baseline gap-3 font-mono text-[11px] uppercase tracking-widest text-cami-muted">
                     <span className="text-cami-cyan">{p.tag}</span>
@@ -49,17 +50,23 @@ export function Work() {
                     <span className={statusClass[p.statusTone]}>{p.status}</span>
                   </div>
                   <h3 className="mt-3 font-sans text-2xl font-semibold text-cami-fg sm:text-3xl">
-                    {p.title}
+                    <Link
+                      to={`/work/${p.id}`}
+                      className="transition hover:text-cami-accent-soft"
+                    >
+                      {p.title}
+                    </Link>
                   </h3>
                   <p className="mt-4 text-base leading-relaxed text-cami-muted">
                     {p.excerpt}
                   </p>
-                  <p className="mt-6 font-mono text-xs text-cami-accent-soft">
-                    <span className="syntax-keyword">detail</span>
-                    <span className="syntax-comment">
-                      {' '}
-                      → see résumé + contact for depth
-                    </span>
+                  <p className="mt-6 font-mono text-xs">
+                    <Link
+                      to={`/work/${p.id}`}
+                      className="text-cami-accent-soft underline-offset-4 transition hover:text-cami-mint hover:underline"
+                    >
+                      Read case study →
+                    </Link>
                   </p>
                 </div>
               </article>

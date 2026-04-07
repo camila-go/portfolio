@@ -1,28 +1,16 @@
-import { About } from './components/About'
-import { FooterNav } from './components/FooterNav'
-import { Hero } from './components/Hero'
-import { Metrics } from './components/Metrics'
-import { ModuleStickyNav } from './components/ModuleStickyNav'
-import { ResumeSection } from './components/ResumeSection'
-import { SystemHeader } from './components/SystemHeader'
-import { TerminalPrompt } from './components/TerminalPrompt'
-import { Work } from './components/Work'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import CaseStudyPage from './pages/CaseStudyPage'
+import HomePage from './pages/HomePage'
 
 function App() {
   return (
-    <div className="cami-mesh min-h-svh">
-      <SystemHeader />
-      <main>
-        <Hero />
-        <Metrics />
-        <ModuleStickyNav />
-        <Work />
-        <About />
-        <ResumeSection />
-        <TerminalPrompt />
-      </main>
-      <FooterNav />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/work/:slug" element={<CaseStudyPage />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
