@@ -1,0 +1,77 @@
+@import 'tailwindcss';
+
+@theme {
+  /* Cami palette: deep base + violet primary + terminal + syntax highlights */
+  --color-cami-void: #06060a;
+  --color-cami-ink: #0c0c12;
+  --color-cami-surface: #12121c;
+  --color-cami-border: #252532;
+  --color-cami-muted: #8b8b9e;
+  --color-cami-fg: #e8e8ef;
+  --color-cami-accent: #a855f7;
+  --color-cami-accent-soft: #c4b5fd;
+  --color-cami-mint: #4ade80;
+  --color-cami-amber: #fbbf24;
+  --color-cami-cyan: #22d3ee;
+  --color-cami-rose: #fb7185;
+
+  --font-sans: 'DM Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  --shadow-glow-mint: 0 0 32px rgba(74, 222, 128, 0.25);
+  --shadow-glow-violet: 0 0 40px rgba(168, 85, 247, 0.35);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply m-0 min-h-svh bg-cami-void text-cami-fg antialiased;
+    font-family: var(--font-sans);
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-cami-accent) 45%, transparent);
+    color: var(--color-cami-void);
+  }
+}
+
+/* Mesh + subtle scanline — hybrid “CLI meets editorial” */
+.cami-mesh {
+  background-color: var(--color-cami-void);
+  background-image:
+    radial-gradient(ellipse 100% 70% at 15% -5%, rgba(168, 85, 247, 0.22), transparent 52%),
+    radial-gradient(ellipse 80% 50% at 95% 15%, rgba(34, 211, 238, 0.14), transparent 48%),
+    radial-gradient(ellipse 60% 45% at 50% 100%, rgba(251, 113, 133, 0.1), transparent 55%),
+    linear-gradient(180deg, rgba(6, 6, 10, 0.2), rgba(6, 6, 10, 0.92));
+}
+
+.cami-grid-lines {
+  background-image: linear-gradient(
+      rgba(37, 37, 50, 0.35) 1px,
+      transparent 1px
+    ),
+    linear-gradient(90deg, rgba(37, 37, 50, 0.2) 1px, transparent 1px);
+  background-size: 100% 48px, 64px 100%;
+}
+
+.cami-glow-border {
+  box-shadow:
+    0 0 0 1px color-mix(in oklab, var(--color-cami-accent) 35%, transparent),
+    var(--shadow-glow-violet);
+}
+
+.syntax-keyword {
+  color: var(--color-cami-cyan);
+}
+.syntax-string {
+  color: var(--color-cami-mint);
+}
+.syntax-var {
+  color: var(--color-cami-rose);
+}
+.syntax-comment {
+  color: var(--color-cami-muted);
+}
