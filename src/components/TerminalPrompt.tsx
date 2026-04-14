@@ -4,7 +4,7 @@ import { site } from '../data/site'
 const hints: Record<string, string> = {
   help: 'Commands: help | about | work | resume | contact | clear',
   about: `${site.fullName} — ${site.roles}. See #about.`,
-  work: 'Selected projects: #work (SEI, Walmart, freelance).',
+  work: 'Selected projects: #work — Jynx, DPIC (Georgia Aquarium), NSA redesign.',
   resume: `PDF: ${site.resumePdf} — also #resume.`,
   contact: `${site.email} · ${site.phone} · ${site.handle}`,
   clear: '',

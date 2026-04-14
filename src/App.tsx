@@ -7,6 +7,18 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route
+          path="/work/sei-ai-edu"
+          element={<Navigate to="/work/jynx-networking" replace />}
+        />
+        <Route
+          path="/work/walmart-enterprise"
+          element={<Navigate to="/#work" replace />}
+        />
+        <Route
+          path="/work/freelance-ai-brand"
+          element={<Navigate to="/#work" replace />}
+        />
         <Route path="/work/:slug" element={<CaseStudyPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

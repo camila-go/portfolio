@@ -60,11 +60,25 @@ export default function CaseStudyPage() {
             <p className="mt-6 text-lg leading-relaxed text-zinc-400 sm:text-xl">
               {study.dek}
             </p>
+            {study.liveUrl ? (
+              <p className="mt-8">
+                <a
+                  href={study.liveUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full border border-orange-500/40 bg-orange-500/10 px-5 py-2.5 font-mono text-xs uppercase tracking-widest text-orange-300 transition hover:border-orange-400/60 hover:bg-orange-500/15"
+                >
+                  {study.liveCtaLabel ?? 'View live site'}
+                </a>
+              </p>
+            ) : null}
           </div>
           <div className="mx-auto mt-12 max-w-4xl">
             <FigurePlaceholder
               figure={{
-                caption: 'Product UI exploration — replace with your screens',
+                caption:
+                  study.heroFigureCaption ??
+                  'Product UI exploration — replace with your screens',
                 variant: 'hero-stack',
               }}
               index={0}

@@ -21,7 +21,7 @@ export function Work() {
           <span className="text-cami-mint">//</span> selected case studies
         </h2>
         <p className="mt-4 max-w-2xl font-sans text-2xl font-medium text-cami-fg sm:text-3xl">
-          Highlights from higher ed, enterprise, and freelance — outcomes-first.
+          Shipped product work plus deep case studies — outcomes and craft.
         </p>
 
         <ul className="mt-12 flex flex-col gap-12">
@@ -60,13 +60,25 @@ export function Work() {
                   <p className="mt-4 text-base leading-relaxed text-cami-muted">
                     {p.excerpt}
                   </p>
-                  <p className="mt-6 font-mono text-xs">
+                  <p className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-xs">
                     <Link
                       to={`/work/${p.id}`}
                       className="text-cami-accent-soft underline-offset-4 transition hover:text-cami-mint hover:underline"
                     >
                       Read case study →
                     </Link>
+                    {'liveUrl' in p && p.liveUrl ? (
+                      <a
+                        href={p.liveUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-cami-muted underline-offset-4 transition hover:text-cami-cyan hover:underline"
+                      >
+                        {'liveLabel' in p && p.liveLabel
+                          ? p.liveLabel
+                          : 'Live site'}
+                      </a>
+                    ) : null}
                   </p>
                 </div>
               </article>

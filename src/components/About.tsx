@@ -17,8 +17,8 @@ export function About() {
         <div className="mt-8 grid gap-10 lg:grid-cols-2 lg:gap-16">
           <div className="space-y-5 text-base leading-relaxed text-cami-muted">
             <p>
-              I work end-to-end — from research and prototyping to design
-              systems and launch — with a bias for measurable outcomes (think
+              I work end-to-end — from research and prototyping to product
+              design, systems, and launch — with a bias for measurable outcomes (think
               A/B tests, usability sessions, and adoption). I&apos;m comfortable
               where AI augments the product: personalization, workflow speed,
               and responsible UX.

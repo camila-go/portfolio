@@ -8,10 +8,10 @@ export const site = {
   /** Domain for system chrome */
   handle: 'camilagonzalez.com',
   /** Subtitle under name (from résumé) */
-  roles: 'AI Product Designer · Product Strategist · Visual Storyteller',
+  roles: 'AI Product Designer · Product design & strategy · Visual storytelling',
   /** One-line positioning */
   tagline:
-    'Creative, detail-oriented designer with 6 years in professional design — 3.5+ focused on UX/UI — translating complex ideas into intuitive products that pair emerging AI with accessible, scalable systems.',
+    'Creative, detail-oriented designer with 6 years in professional design — 3.5+ focused on product design and UX/UI — translating complex ideas into intuitive products that pair emerging AI with accessible, scalable systems.',
   /** CLI / OS label */
   sysVersion: 'CG_PORTFOLIO v2025.1',
   email: 'camil4.gon@gmail.com',
@@ -74,60 +74,62 @@ export const metrics = [
     accent: 'text-cami-cyan',
     glow: 'shadow-[0_0_28px_rgba(34,211,238,0.18)]',
     detail:
-      '3.5+ years concentrated in UX/UI and product — from research to shipped UI and systems.',
+      '3.5+ years concentrated in product design and UX/UI — from research to shipped UI and systems.',
   },
 ] as const
 
 /** Selected work — aligned to résumé highlights (case study pages can follow). */
 export const projects = [
   {
-    id: 'sei-ai-edu',
+    id: 'jynx-networking',
     index: '01',
-    title: 'AI-integrated enrollment & internal tools',
-    tag: 'SEI · Higher ed · AI',
-    year: '2022 — present',
-    status: 'Shipping',
+    title: 'Jynx — AI event networking + Teams (SEI)',
+    tag: 'SEI · Events · AI',
+    year: '2025',
+    status: 'Live',
     statusTone: 'mint' as const,
     excerpt:
-      'UX/UI for Capella & Strayer: AI-assisted enrollment flows, internal workflow tools, and email/campaign experiences — 50,000+ users touched, stronger lead generation, and company-wide AI hackathon win for new design approaches.',
+      'Product design and build for this shipped networking app at SEI leadership conferences: AI-assisted matching and Microsoft Teams integration for 300+ attendees. Built with Cursor, Vercel, and Supabase — so leaders connect without leaving how they already work.',
     accent: 'from-fuchsia-500/25 to-cyan-500/10',
+    liveUrl: 'https://www.jynxnetworking.app/welcome',
+    liveLabel: 'GS26 welcome page',
   },
   {
-    id: 'walmart-enterprise',
+    id: 'dpic-dive-cloud',
     index: '02',
-    title: 'Enterprise internal tools at scale',
-    tag: 'Walmart · Contract',
-    year: '2022',
-    status: 'Shipped',
-    statusTone: 'mint' as const,
-    excerpt:
-      'Logistics & employee scheduling for 1.5M+ associates: complex workflows distilled into usable UI, prototypes that informed roadmaps, and patterns adopted across internal products.',
-    accent: 'from-violet-500/25 to-rose-500/10',
-  },
-  {
-    id: 'freelance-ai-brand',
-    index: '03',
-    title: 'Freelance — AI-enhanced product & brand',
-    tag: 'Freelance · Multi-client',
-    year: '2019 — present',
-    status: 'Ongoing',
+    title: 'DPIC — Dive Program in the Cloud',
+    tag: 'ADPA · Responsive app & PWA',
+    year: '2019',
+    status: 'Case study',
     statusTone: 'amber' as const,
     excerpt:
-      'Branding, UI, and interfaces for varied clients — web, print, and motion — with AI-assisted workflows where they amplify craft and speed.',
-    accent: 'from-cyan-500/20 to-amber-500/10',
+      'Strategic redesign of the Dive Program in the Cloud (DPIC) for Georgia Aquarium: complex dive logging made mobile-first, with offline-sync so pros and volunteers can record safely when connectivity fails.',
+    accent: 'from-orange-500/20 to-cyan-900/20',
+  },
+  {
+    id: 'nsa-redesign',
+    index: '03',
+    title: 'NSA — Public web redesign & IA',
+    tag: 'NSA · Web redesign & IA',
+    year: '2020',
+    status: 'Case study',
+    statusTone: 'amber' as const,
+    excerpt:
+      'End-to-end redesign of the NSA public site architecture: clearer paths to cybersecurity guidance and threat information for a general U.S. audience, grounded in research and card sorting.',
+    accent: 'from-slate-500/25 to-blue-900/20',
   },
 ] as const
 
 export const experience = [
   {
     company: 'SEI (Strategic Education, Inc.)',
-    role: 'UI/UX Designer · Product Designer',
+    role: 'Product Designer — product design & UX/UI',
     dates: 'Aug 2022 — Present',
     highlights: [
       '↑ Email conversion ~300% via A/B tests and research-informed UI.',
+      'Product design and build: Jynx — AI event networking with Teams integration for 300+ leaders (Cursor, Vercel, Supabase; jynxnetworking.app).',
       'AI-integrated enrollment & internal tools for Capella & Strayer — 50,000+ users; stronger leads across web & email.',
-      'Usability testing & iteration for accessibility and engagement.',
-      'Design systems with dev, copy, and PM partners; AI-driven workflows & personalization.',
+      'Usability testing, design systems with dev/copy/PM; AI-driven workflows & personalization.',
     ],
   },
   {
