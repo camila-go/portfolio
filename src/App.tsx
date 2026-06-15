@@ -1,8 +1,17 @@
+import { useState } from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { PasswordGate } from './components/PasswordGate'
+import { isAuthenticated } from './lib/siteAuth'
 import CaseStudyPage from './pages/CaseStudyPage'
 import HomePage from './pages/HomePage'
 
 function App() {
+  const [authed, setAuthed] = useState(() => isAuthenticated())
+
+  if (!authed) {
+    return <PasswordGate onSuccess={() => setAuthed(true)} />
+  }
+
   return (
     <BrowserRouter>
       <Routes>
