@@ -6,7 +6,7 @@ export const site = {
   /** Informal */
   shortName: 'Cami',
   /** Domain for system chrome */
-  handle: 'camilagonzalez.com',
+  handle: 'camilagonzalez.xyz',
   /** Subtitle under name (from résumé) */
   roles: 'AI Product Designer · Product design & strategy · Visual storytelling',
   /** One-line positioning */
@@ -16,7 +16,7 @@ export const site = {
   sysVersion: 'CG_PORTFOLIO v2025.1',
   email: 'camil4.gon@gmail.com',
   phone: '678-577-2248',
-  websiteUrl: 'https://camilagonzalez.com',
+  websiteUrl: 'https://camilagonzalez.xyz',
   languages: 'Spanish (fluent) · French (working knowledge)',
   resumePdf: '/cGonzalezResume2025.pdf',
 } as const

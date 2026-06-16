@@ -1,73 +1,55 @@
-# React + TypeScript + Vite
+# Camila Gonzalez — Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React + TypeScript + Vite portfolio site. Password-protected; deploys to Vercel at [camilagonzalez.xyz](https://camilagonzalez.xyz).
 
-Currently, two official plugins are available:
+## Local development
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Build
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run build    # output: dist/
+npm run preview  # preview production build locally
 ```
+
+## Deployment (Vercel + GoDaddy)
+
+Hosting is on **Vercel**, connected to this GitHub repo. Custom domain **camilagonzalez.xyz** is configured in GoDaddy DNS.
+
+### Vercel (one-time setup)
+
+1. Sign in at [vercel.com](https://vercel.com) with GitHub.
+2. **Add New Project** → import `camila-go/portfolio`.
+3. Confirm settings:
+   - **Build command:** `npm run build`
+   - **Output directory:** `dist`
+4. Deploy. Each push to `main` redeploys automatically.
+5. **Settings → Domains** → add `camilagonzalez.xyz` and `www.camilagonzalez.xyz`.
+6. Set primary domain and enable `www` → apex redirect (or vice versa).
+
+[`vercel.json`](vercel.json) includes SPA rewrites so React Router paths (e.g. `/work/jynx-networking`) work on direct load.
+
+### GoDaddy DNS
+
+In GoDaddy → **camilagonzalez.xyz** → **Manage DNS**:
+
+1. Remove conflicting A/CNAME records (parking / old hosting). **Do not delete MX records** if you use email on this domain.
+2. Add the records Vercel shows when you add the domain. Typical values:
+
+| Type  | Name | Value                  |
+|-------|------|------------------------|
+| A     | `@`  | `76.76.21.21`          |
+| CNAME | `www`| `cname.vercel-dns.com` |
+
+3. Wait for DNS propagation (often under 1 hour). Vercel should show **Valid Configuration** and issue HTTPS.
+
+### Post-deploy checklist
+
+- [ ] `https://camilagonzalez.xyz` — password gate, then home
+- [ ] `https://camilagonzalez.xyz/work/jynx-networking` — direct URL works
+- [ ] `https://camilagonzalez.xyz/cGonzalezResume2025.pdf` — résumé downloads
+- [ ] HTTPS padlock in browser
