@@ -11,7 +11,7 @@ export const site = {
   roles: 'AI Product Designer · Product design & strategy · Visual storytelling',
   /** One-line positioning */
   tagline:
-    'Creative, detail-oriented designer with 6 years in professional design — 3.5+ focused on product design and UX/UI — translating complex ideas into intuitive products that pair emerging AI with accessible, scalable systems.',
+    'Creative, detail-oriented designer with 6 years in product design and UX/UI — translating complex ideas into intuitive products that pair emerging AI with accessible, scalable systems.',
   /** CLI / OS label */
   sysVersion: 'CG_PORTFOLIO v2025.1',
   email: 'camil4.gon@gmail.com',
@@ -74,7 +74,7 @@ export const metrics = [
     accent: 'text-cami-cyan',
     glow: 'shadow-[0_0_28px_rgba(34,211,238,0.18)]',
     detail:
-      '3.5+ years concentrated in product design and UX/UI — from research to shipped UI and systems.',
+      '6 years across product design and UX/UI — from research to shipped UI and systems.',
   },
 ] as const
 

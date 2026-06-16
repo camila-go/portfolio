@@ -45,10 +45,8 @@ export function Hero() {
             Download résumé (PDF)
           </a>
           <a
-            href={site.websiteUrl}
+            href="/"
             className="font-mono text-xs text-cami-muted underline-offset-4 hover:text-cami-cyan hover:underline"
-            target="_blank"
-            rel="noreferrer"
           >
             {site.handle} →
           </a>

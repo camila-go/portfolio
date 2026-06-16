@@ -15,12 +15,7 @@ export function SystemHeader() {
           </span>
           <span>
             <span className="syntax-comment">SYS.NODE :</span>{' '}
-            <a
-              href={site.websiteUrl}
-              className="text-cami-accent-soft hover:underline"
-              target="_blank"
-              rel="noreferrer"
-            >
+            <a href="/" className="text-cami-accent-soft hover:underline">
               {site.handle}
             </a>
           </span>
