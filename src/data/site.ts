@@ -60,12 +60,12 @@ export const metrics = [
   },
   {
     id: 'reach',
-    label: 'Scale (enterprise)',
-    value: '1.5M+',
+    label: 'Leaders at summit',
+    value: '300+',
     accent: 'text-cami-mint',
     glow: 'shadow-[0_0_28px_rgba(74,222,128,0.2)]',
     detail:
-      'Walmart contract — internal logistics & scheduling tools across 4,700+ stores.',
+      'Jynx at SEI — AI event networking with Teams integration, product design and build for internal leadership conferences.',
   },
   {
     id: 'experience',
@@ -137,8 +137,7 @@ export const experience = [
     role: 'UX Designer (Contract)',
     dates: 'Mar 2022 — Aug 2022',
     highlights: [
-      'Enterprise apps — logistics & scheduling — for 1.5M+ associates, 4,700+ stores.',
-      'Simplified heavy workflows; prototypes steered internal roadmaps.',
+      'Designed UI/UX for internal SaaS compliance tools at Walmart Global Tech — including an anti-money laundering tracking dashboard and a legal claims search platform supporting financial crimes and legal operations teams.',
     ],
   },
   {
