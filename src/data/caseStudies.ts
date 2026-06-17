@@ -169,40 +169,43 @@ export const caseStudies: CaseStudy[] = [
     slug: 'dpic-dive-cloud',
     shortTitle: 'DPIC · Georgia Aquarium',
     headline:
-      'Professional dive logging at aquarium scale: offline-sync for the Georgia Aquarium.',
-    dek: 'A strategic redesign of the Dive Program in the Cloud (DPIC) system, translating complex logging requirements into a mobile-first interface that functions without an internet connection.',
+      'High-stakes dive logging when connectivity fails: a system redesign for Georgia Aquarium.',
+    dek: 'A system-level redesign of Dive Program in the Cloud (DPIC): offline-first architecture for a “bad internet” environment, heuristic evaluation to prioritize navigation and efficiency, and logging flows that protect diver focus and operational safety—not just interface polish.',
     meta: [
       { label: 'Context', value: 'ADPA · Responsive app & PWA' },
       { label: 'Client', value: 'Georgia Aquarium — Dive Program in the Cloud (DPIC)' },
-      { label: 'Role', value: 'Product design · UX/UI · visual system' },
-      { label: 'Focus', value: 'Mobile-first logging · offline-sync · handoff-ready prototypes' },
+      { label: 'Role', value: 'Product design · UX/UI · systems thinking' },
       {
-        label: 'Brand',
-        value: 'UI Style Tile — #F9A26C, #325D79 · custom iconography',
+        label: 'Focus',
+        value: 'Offline-sync MVP · heuristic evaluation · cross-device logging',
+      },
+      {
+        label: 'Handoff',
+        value: 'Documented flows · responsive prototypes · UI Style Tile for legibility',
       },
     ],
     problem: {
       title: 'The problem',
       paragraphs: [
-        'Professional divers and volunteers at the Georgia Aquarium work in a “bad internet” environment that makes it hard to input safe, accurate data when it matters.',
-        'The existing experience was described as a cumbersome interface: poor legibility, input targets that were hard to find, and flows that broke concentration. That lack of reliability reduced confidence in the tool and pulled attention away from dive operations.',
+        'Professional divers and volunteers at the Georgia Aquarium work in a “bad internet” environment—the primary blocker for any real-time-only logging pattern. Safe, accurate data capture has to work when the network does not.',
+        'The existing experience was described as a cumbersome interface that distracted divers from their primary responsibilities: poor legibility, hard-to-find inputs, and flows that broke concentration mid-operation. That lack of reliability eroded trust and pulled attention away from dive work—framing UX as a safety and focus problem, not an aesthetics problem.',
       ],
       bullets: [
-        'Unreliable connectivity blocks real-time-only patterns',
-        'Heavy forms need clarity, not decoration',
-        'Trust in the app is tied to speed and accuracy underwater-adjacent workflows',
+        'Connectivity failure risks lost or delayed logs in safety-critical workflows',
+        'Broken concentration mid-dive pulls focus from operations, not the screen',
+        'Heavy forms need task efficiency and trust states—not decoration',
       ],
     },
     solution: {
       title: 'The solution',
       paragraphs: [
-        'A mobile-first DPIC concept centered on offline-sync as the MVP: log locally, sync when the network returns, with states that make “pending” and “saved” obvious.',
-        'Interaction patterns prioritized pain relievers — autofill where safe, forgiving edit states, and hierarchy that surfaces the next required field — before layering visual polish.',
+        'Offline-sync as the deliberate MVP: log locally, sync when the network returns, with clear “pending” and “saved” states so divers know their data is secure before they move on.',
+        'Heuristic evaluation prioritized navigation and task efficiency with objective criteria before any visual layer—autofill where safe, forgiving edit states, and hierarchy that surfaces the next required field as operational pain relievers.',
       ],
       bullets: [
-        'Heuristic evaluation to prioritize navigation and efficiency before visual refinement',
-        'Responsive coverage across mobile, tablet, and desktop for volunteer and pro contexts',
-        'Documented path from sketches to high-fidelity prototypes for engineering alignment',
+        'Heuristic evaluation to justify IA and navigation decisions before visual refinement',
+        'Offline-first logging paths: what must work without connectivity, what can wait for sync',
+        'Documented flows and responsive prototypes for engineering alignment across mobile, tablet, and desktop',
       ],
     },
     sections: [
@@ -210,7 +213,7 @@ export const caseStudies: CaseStudy[] = [
         id: 'mobile-offline',
         title: 'Mobile-first & offline-sync',
         paragraphs: [
-          'In unreliable environments, the most valuable feature is confidence that data will not be lost. The IA and screen flow were structured so critical logging paths work without a connection, with clear recovery when sync resumes.',
+          'Offline-first was the product strategy, not a feature add-on. Critical logging paths had to function without a connection; secondary data could queue for sync. Recovery behavior—what happens when sync resumes, how conflicts resolve, how “pending” reads at a glance—was designed as part of the system, not bolted on after the visual layer.',
         ],
         figures: [
           figure('Logging flows — offline vs synced states (placeholder)', 'pair'),
@@ -219,25 +222,25 @@ export const caseStudies: CaseStudy[] = [
       },
       {
         id: 'adoption',
-        title: 'Adoption & handoff',
+        title: 'Validation & engineering handoff',
         paragraphs: [
-          'Deliverables included a comprehensive UI Style Tile with Georgia Aquarium–aligned brand colors (#F9A26C, #325D79), custom iconography, and a documented design process from sketches through high-fidelity responsive prototypes.',
-          'The final handoff packaged functional flows for mobile, tablet, and desktop so stakeholders could validate cross-device compatibility before build.',
+          'Deliverables led with documented functional flows and cross-device coverage so stakeholders could validate logging behavior before build—not just mockups. Responsive prototypes covered mobile, tablet, and desktop for both volunteer and professional diver contexts.',
+          'A UI Style Tile (Georgia Aquarium–aligned #F9A26C, #325D79, custom iconography) supported the system: legibility, field recognition, and consistent states across devices—applied after heuristic-driven IA and navigation were locked.',
         ],
       },
     ],
     takeaways: [
       {
         title: 'Offline-sync is the MVP',
-        body: 'In unreliable environments, the ability to log data locally and sync later is the most valuable feature for stakeholders.',
+        body: 'In constrained environments like the aquarium, offline-sync is the strategic product choice—not a nice-to-have. Local log, sync later, with trust states that stakeholders can evaluate on day one.',
       },
       {
-        title: 'Functionality over polish',
-        body: 'Professional tools need high-value pain relievers like autofill and easy edit states before purely aesthetic gains.',
+        title: 'UX protects operational focus',
+        body: 'Poor design distracts divers from primary responsibilities. The goal was a tool that fades into the workflow: fast inputs, clear recovery, and reliability that supports safety-critical operations.',
       },
       {
-        title: 'Hierarchy via heuristics',
-        body: 'Using standardized evaluation frameworks ensured navigation and efficiency were prioritized before the visual layer was applied.',
+        title: 'Heuristics before visuals',
+        body: 'Standardized heuristic evaluation justified navigation and efficiency decisions with objective criteria before the visual layer—hallmark of senior, evidence-based product design.',
       },
     ],
   },

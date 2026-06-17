@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
 import { FigurePlaceholder } from '../components/caseStudy/FigurePlaceholder'
 import { FooterNav } from '../components/FooterNav'
+import { Reveal } from '../components/Reveal'
 import { SystemHeader } from '../components/SystemHeader'
 import {
   getAdjacentCaseStudies,
@@ -51,29 +52,37 @@ export default function CaseStudyPage() {
       <article>
         <header className="border-b border-zinc-900 px-4 pb-16 pt-12 sm:pt-16">
           <div className="mx-auto max-w-4xl">
-            <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-orange-500/90">
-              {study.shortTitle}
-            </p>
-            <h1 className="mt-4 font-sans text-4xl font-semibold leading-[1.12] tracking-tight text-white sm:text-5xl">
-              {study.headline}
-            </h1>
-            <p className="mt-6 text-lg leading-relaxed text-zinc-400 sm:text-xl">
-              {study.dek}
-            </p>
-            {study.liveUrl ? (
-              <p className="mt-8">
-                <a
-                  href={study.liveUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full border border-orange-500/40 bg-orange-500/10 px-5 py-2.5 font-mono text-xs uppercase tracking-widest text-orange-300 transition hover:border-orange-400/60 hover:bg-orange-500/15"
-                >
-                  {study.liveCtaLabel ?? 'View live site'}
-                </a>
+            <Reveal trigger="mount" variant="fade-in" delay={0}>
+              <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-orange-500/90">
+                {study.shortTitle}
               </p>
+            </Reveal>
+            <Reveal trigger="mount" variant="fade-up" delay={80}>
+              <h1 className="mt-4 font-sans text-4xl font-semibold leading-[1.12] tracking-tight text-white sm:text-5xl">
+                {study.headline}
+              </h1>
+            </Reveal>
+            <Reveal trigger="mount" variant="blur-up" delay={160}>
+              <p className="mt-6 text-lg leading-relaxed text-zinc-400 sm:text-xl">
+                {study.dek}
+              </p>
+            </Reveal>
+            {study.liveUrl ? (
+              <Reveal trigger="mount" variant="fade-up" delay={240}>
+                <p className="mt-8">
+                  <a
+                    href={study.liveUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full border border-orange-500/40 bg-orange-500/10 px-5 py-2.5 font-mono text-xs uppercase tracking-widest text-orange-300 transition hover:border-orange-400/60 hover:bg-orange-500/15"
+                  >
+                    {study.liveCtaLabel ?? 'View live site'}
+                  </a>
+                </p>
+              </Reveal>
             ) : null}
           </div>
-          <div className="mx-auto mt-12 max-w-4xl">
+          <Reveal trigger="mount" variant="scale-in" delay={300} className="mx-auto mt-12 max-w-4xl">
             <FigurePlaceholder
               figure={{
                 caption:
@@ -83,13 +92,14 @@ export default function CaseStudyPage() {
               }}
               index={0}
             />
-          </div>
+          </Reveal>
         </header>
 
         <div className="mx-auto max-w-6xl px-4 py-16">
           <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_260px] lg:gap-16">
             <div className="space-y-14">
-              <section aria-labelledby="problem">
+              <Reveal variant="fade-up">
+                <section aria-labelledby="problem">
                 <h2
                   id="problem"
                   className="font-sans text-2xl font-semibold text-white"
@@ -109,9 +119,11 @@ export default function CaseStudyPage() {
                     </li>
                   ))}
                 </ul>
-              </section>
+                </section>
+              </Reveal>
 
-              <section aria-labelledby="solution">
+              <Reveal variant="fade-up" delay={80}>
+                <section aria-labelledby="solution">
                 <h2
                   id="solution"
                   className="font-sans text-2xl font-semibold text-white"
@@ -131,10 +143,12 @@ export default function CaseStudyPage() {
                     </li>
                   ))}
                 </ul>
-              </section>
+                </section>
+              </Reveal>
             </div>
 
-            <aside className="lg:sticky lg:top-28 lg:self-start">
+            <Reveal variant="slide-left" delay={120}>
+              <aside className="lg:sticky lg:top-28 lg:self-start">
               <div className="rounded-2xl border border-zinc-800 bg-zinc-900/50 p-6">
                 <p className="font-mono text-[10px] uppercase tracking-widest text-zinc-500">
                   Overview
@@ -150,17 +164,18 @@ export default function CaseStudyPage() {
                   ))}
                 </dl>
               </div>
-            </aside>
+              </aside>
+            </Reveal>
           </div>
         </div>
 
-        {study.sections.map((sec) => (
+        {study.sections.map((sec, si) => (
           <section
             key={sec.id}
             id={sec.id}
             className="border-t border-zinc-900 px-4 py-16"
           >
-            <div className="mx-auto max-w-4xl">
+            <Reveal variant="fade-up" delay={si * 40} className="mx-auto max-w-4xl">
               <h2 className="font-sans text-2xl font-semibold text-white sm:text-3xl">
                 {sec.title}
               </h2>
@@ -198,7 +213,7 @@ export default function CaseStudyPage() {
                   ))}
                 </div>
               ) : null}
-            </div>
+            </Reveal>
           </section>
         ))}
 
@@ -206,7 +221,7 @@ export default function CaseStudyPage() {
           className="border-t border-zinc-900 px-4 py-20"
           aria-labelledby="takeaways"
         >
-          <div className="mx-auto max-w-4xl">
+          <Reveal variant="fade-up" className="mx-auto max-w-4xl">
             <h2
               id="takeaways"
               className="font-sans text-2xl font-semibold text-white sm:text-3xl"
@@ -214,29 +229,28 @@ export default function CaseStudyPage() {
               Key takeaways
             </h2>
             <ul className="mt-10 flex flex-col gap-4">
-              {study.takeaways.map((t) => (
-                <li
-                  key={t.title}
-                  className="flex gap-4 rounded-2xl border border-zinc-800 bg-zinc-900/40 p-6"
-                >
-                  <span
-                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-orange-500/15 text-orange-400"
-                    aria-hidden
-                  >
-                    ◆
-                  </span>
-                  <div>
-                    <h3 className="font-sans text-lg font-semibold text-white">
-                      {t.title}
-                    </h3>
-                    <p className="mt-2 text-sm leading-relaxed text-zinc-400">
-                      {t.body}
-                    </p>
-                  </div>
-                </li>
+              {study.takeaways.map((t, ti) => (
+                <Reveal key={t.title} variant="fade-up" delay={ti * 70}>
+                  <li className="hover-lift flex gap-4 rounded-2xl border border-zinc-800 bg-zinc-900/40 p-6 transition hover:border-orange-500/30">
+                    <span
+                      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-orange-500/15 text-orange-400"
+                      aria-hidden
+                    >
+                      ◆
+                    </span>
+                    <div>
+                      <h3 className="font-sans text-lg font-semibold text-white">
+                        {t.title}
+                      </h3>
+                      <p className="mt-2 text-sm leading-relaxed text-zinc-400">
+                        {t.body}
+                      </p>
+                    </div>
+                  </li>
+                </Reveal>
               ))}
             </ul>
-          </div>
+          </Reveal>
         </section>
 
         <nav

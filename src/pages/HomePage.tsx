@@ -14,12 +14,12 @@ export default function HomePage() {
       <SystemHeader />
       <main>
         <Hero />
+        <TerminalPrompt />
         <Metrics />
         <ModuleStickyNav />
         <Work />
         <About />
         <ResumeSection />
-        <TerminalPrompt />
       </main>
       <FooterNav />
     </div>

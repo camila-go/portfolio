@@ -1,64 +1,151 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { Reveal } from './Reveal'
 import { site } from '../data/site'
 
-const hints: Record<string, string> = {
-  help: 'Commands: help | about | work | resume | contact | clear',
-  about: `${site.fullName} — ${site.roles}. See #about.`,
-  work: 'Selected projects: #work — Jynx, DPIC (Georgia Aquarium), NSA redesign.',
-  resume: `PDF: ${site.resumePdf} — also #resume.`,
-  contact: `${site.email} · ${site.phone} · ${site.handle}`,
-  clear: '',
+type ChatTurn = {
+  role: 'user' | 'assistant'
+  content: string
 }
+
+const HELP_TEXT = `Ask about Camila's work, skills, or experience. Try:
+  • What did you build at SEI?
+  • Tell me about Jynx
+  • What are your AI skills?`
 
 export function TerminalPrompt() {
   const [input, setInput] = useState('')
-  const [lines, setLines] = useState<string[]>([])
+  const [turns, setTurns] = useState<ChatTurn[]>([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const transcriptRef = useRef<HTMLDivElement>(null)
 
-  const run = useCallback(() => {
-    const cmd = input.trim().toLowerCase()
-    if (cmd === 'clear') {
-      setLines([])
+  useEffect(() => {
+    const el = transcriptRef.current
+    if (el) el.scrollTop = el.scrollHeight
+  }, [turns, loading, error])
+
+  const send = useCallback(async () => {
+    const text = input.trim()
+    if (!text || loading) return
+
+    setError(null)
+
+    if (text.toLowerCase() === 'clear') {
+      setTurns([])
       setInput('')
       return
     }
-    const out = hints[cmd] ?? `Unknown: ${input}. Try: help`
-    setLines((prev) => [...prev, `> ${input}`, out].filter(Boolean))
+
+    if (text.toLowerCase() === 'help') {
+      setTurns((prev) => [
+        ...prev,
+        { role: 'user', content: text },
+        { role: 'assistant', content: HELP_TEXT },
+      ])
+      setInput('')
+      return
+    }
+
+    const userTurn: ChatTurn = { role: 'user', content: text }
+    const nextTurns = [...turns, userTurn]
+    setTurns(nextTurns)
     setInput('')
-  }, [input])
+    setLoading(true)
+
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: nextTurns }),
+      })
+
+      const data = (await res.json()) as { reply?: string; error?: string }
+
+      if (!res.ok) {
+        throw new Error(data.error ?? 'Request failed')
+      }
+
+      if (!data.reply) {
+        throw new Error('Empty response')
+      }
+
+      setTurns((prev) => [...prev, { role: 'assistant', content: data.reply! }])
+    } catch {
+      setError('Connection failed — try again in a moment.')
+    } finally {
+      setLoading(false)
+    }
+  }, [input, loading, turns])
 
   return (
-    <div className="border-b border-cami-border/60 bg-cami-ink/40 px-4 py-6">
-      <div className="mx-auto max-w-6xl font-mono text-sm">
-        <p className="mb-3 text-[11px] uppercase tracking-widest text-cami-muted">
-          Interactive
-        </p>
-        {lines.map((line, i) => (
-          <p
-            key={`${line}-${i}`}
-            className={
-              line.startsWith('>') ? 'text-cami-muted' : 'text-cami-fg/90'
-            }
-          >
-            {line}
+    <Reveal variant="fade-up">
+      <section
+        className="border-b border-cami-border/60 bg-cami-ink/40 px-4 py-8 sm:py-10"
+        aria-label="Ask about Camila"
+      >
+        <div className="mx-auto max-w-3xl font-mono text-sm">
+          <p className="mb-4 text-[11px] uppercase tracking-widest text-cami-muted">
+            <span className="text-cami-cyan">//</span> ask_about_cami
           </p>
-        ))}
-        <label className="mt-2 flex flex-wrap items-center gap-2">
-          <span className="text-cami-mint">
-            {site.shortName.toLowerCase()}@{site.handle}:~$
-          </span>
-          <input
-            className="min-w-[12rem] flex-1 border-none bg-transparent text-cami-fg outline-none placeholder:text-cami-muted/60"
-            placeholder="type a command (try: help)"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') run()
-            }}
-            autoComplete="off"
-            spellCheck={false}
-          />
-        </label>
-      </div>
-    </div>
+
+          <div
+            ref={transcriptRef}
+            className="max-h-64 space-y-3 overflow-y-auto pr-1"
+          >
+            {turns.length === 0 && !loading && !error ? (
+              <p className="text-cami-muted/70">
+                Ask about my work, skills, or experience — or type{' '}
+                <span className="text-cami-fg/80">help</span> for ideas.
+              </p>
+            ) : null}
+
+            {turns.map((turn, i) => (
+              <div key={`${turn.role}-${i}`}>
+                {turn.role === 'user' ? (
+                  <p className="text-cami-muted">
+                    <span className="text-cami-mint">
+                      {site.shortName.toLowerCase()}@{site.handle}:~$
+                    </span>{' '}
+                    {turn.content}
+                  </p>
+                ) : (
+                  <p className="whitespace-pre-wrap leading-relaxed text-cami-fg/90">
+                    {turn.content}
+                  </p>
+                )}
+              </div>
+            ))}
+
+            {loading ? (
+              <p className="cami-status-pulse text-cami-muted">
+                <span className="text-cami-cyan">//</span> thinking...
+              </p>
+            ) : null}
+
+            {error ? (
+              <p className="text-cami-rose">{error}</p>
+            ) : null}
+          </div>
+
+          <label className="mt-4 flex flex-wrap items-center gap-2 border-t border-cami-border/50 pt-4">
+            <span className="text-cami-mint">
+              {site.shortName.toLowerCase()}@{site.handle}:~$
+            </span>
+            <input
+              className="min-w-[12rem] flex-1 border-none bg-transparent text-cami-fg outline-none placeholder:text-cami-muted/60 disabled:opacity-50"
+              placeholder="ask about my work, skills, or experience"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') void send()
+              }}
+              disabled={loading}
+              autoComplete="off"
+              spellCheck={false}
+            />
+          </label>
+        </div>
+      </section>
+    </Reveal>
   )
 }

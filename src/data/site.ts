@@ -11,35 +11,159 @@ export const site = {
   roles: 'AI Product Designer · Product design & strategy · Visual storytelling',
   /** One-line positioning */
   tagline:
-    'Creative, detail-oriented designer with 6 years in product design and UX/UI — translating complex ideas into intuitive products that pair emerging AI with accessible, scalable systems.',
+    'Creative, detail-oriented AI Product Designer with 6.5 years of professional design experience — 4.5+ focused on product design and UX/UI — translating complex ideas into intuitive products that pair emerging AI with accessible, scalable systems.',
   /** CLI / OS label */
-  sysVersion: 'CG_PORTFOLIO v2025.1',
+  sysVersion: 'CG_PORTFOLIO v2026.1',
   email: 'camil4.gon@gmail.com',
   phone: '678-577-2248',
   websiteUrl: 'https://camilagonzalez.xyz',
   languages: 'Spanish (fluent) · French (working knowledge)',
-  resumePdf: '/cGonzalezResume2025.pdf',
+  headshot: '/camila-headshot.jpg',
+  resumePdf: '/cGonzalezResume2026.pdf',
+  caseStudyFocus:
+    'Case Studies: AI Product Design · Enterprise UX · Design Systems',
 } as const
 
-export const strengths = [
-  'AI-augmented product design',
-  'A/B testing & experimentation',
-  'Interaction & responsive UI',
-  'Accessible UI & design systems',
-  'User research & product lifecycle',
-  'Cross-functional collaboration',
+export const coreCompetencies = [
+  'Product Design',
+  'UX Research',
+  'Interaction Design',
+  'Design Systems',
+  'AI Product Design',
+  'Generative AI',
+  'Prompt Engineering',
+  'Conversational UX',
+  'AI Interaction Design',
+  'Human-Centered AI',
+  'Agentic Workflows',
+  'LLM Evaluation',
+  'Prompt Design',
+  'User Flows',
+  'Wireframing',
+  'Rapid Prototyping',
+  'Accessibility (WCAG)',
+  'A/B Testing',
+  'Product Strategy',
+  'Information Architecture',
+  'Cross-functional Leadership',
+  'Design Thinking',
 ] as const
 
+export const skillGroups = [
+  {
+    label: 'Design',
+    tags: [
+      'Figma',
+      'Figma MCP',
+      'Adobe XD',
+      'Photoshop',
+      'Illustrator',
+      'InDesign',
+      'After Effects',
+      'Animate',
+      'Lightroom',
+      'Rive',
+      'Axure RP 9',
+      'Adobe Creative Cloud',
+    ],
+  },
+  {
+    label: 'AI & LLMs',
+    tags: [
+      'Claude',
+      'ChatGPT',
+      'Gemini',
+      'OpenAI API',
+      'MCP Servers',
+      'Perplexity AI',
+      'Midjourney',
+      'DALL·E',
+      'Runway ML',
+      'Sora',
+      'Prompt Engineering',
+      'AI Agents',
+      'Agentic Workflows',
+      'RAG',
+      'LLM Evaluation',
+      'Conversational UX',
+      'AI Interaction Design',
+    ],
+  },
+  {
+    label: 'Languages',
+    tags: ['HTML', 'CSS', 'JavaScript', 'TypeScript'],
+  },
+  {
+    label: 'Frameworks & Platforms',
+    tags: [
+      'React',
+      'Next.js',
+      'Node.js',
+      'Bootstrap',
+      'Tailwind CSS',
+      'Webflow',
+      'Supabase',
+      'Vercel',
+      'D3.js',
+      'GitHub',
+    ],
+  },
+  {
+    label: 'AI Dev & IDEs',
+    tags: [
+      'Cursor',
+      'Claude Code',
+      'v0',
+      'Bolt',
+      'Replit',
+      'Lovable',
+      'GitHub Copilot',
+      'VS Code',
+    ],
+  },
+  {
+    label: 'Collaboration & PM',
+    tags: [
+      'Notion',
+      'Jira',
+      'Confluence',
+      'Trello',
+      'Agile/Scrum',
+      'MS Teams',
+      'MS Office Suite',
+      'Google Workspace',
+    ],
+  },
+] as const
+
+export const coreStrengths = [
+  'AI-Augmented Design',
+  'Human-Centered AI',
+  'Conversational UX',
+  'A/B Testing',
+  'Interaction Design',
+  'Accessible UI',
+  'Brand Development',
+  'User Research',
+  'AI Interaction Design',
+] as const
+
+/** @deprecated Use coreStrengths in About — kept for any legacy imports */
+export const strengths = coreStrengths
+
 export const certifications = [
-  'AI in Product Design — ELVTR',
-  'Full Stack Web Design — DevMountain (HTML, CSS, JS, responsive)',
-  'UI/UX Bootcamp — Georgia Tech University',
+  { name: 'AI in Product Design', issuer: 'ELVTR' },
+  { name: 'Full Stack Web Design Certificate', issuer: 'DevMountain' },
+  { name: 'UI/UX Bootcamp Certificate', issuer: 'Georgia Tech University' },
 ] as const
 
 export const achievements = [
-  'Top 10 in the U.S. — IBM Creative Jam UI/UX (2019)',
-  'Adobe Government Recognition for design excellence',
-  'Company-wide AI Hackathon winner — SEI',
+  { title: 'Companywide AI Hackathon Winner', org: 'SEI' },
+  { title: 'Top 10 in the U.S.', org: 'IBM Creative Jam UI/UX (2019)' },
+  {
+    title: 'Adobe Government Recognition',
+    org: 'for design excellence',
+  },
 ] as const
 
 export const education = {
@@ -70,11 +194,11 @@ export const metrics = [
   {
     id: 'experience',
     label: 'Design experience',
-    value: '6 yrs',
+    value: '6.5 yrs',
     accent: 'text-cami-cyan',
     glow: 'shadow-[0_0_28px_rgba(34,211,238,0.18)]',
     detail:
-      '6 years across product design and UX/UI — from research to shipped UI and systems.',
+      '6.5 years in professional design — 4.5+ concentrated in product design and UX/UI, from research to shipped UI and systems.',
   },
 ] as const
 
@@ -103,7 +227,7 @@ export const projects = [
     status: 'Case study',
     statusTone: 'amber' as const,
     excerpt:
-      'Strategic redesign of the Dive Program in the Cloud (DPIC) for Georgia Aquarium: complex dive logging made mobile-first, with offline-sync so pros and volunteers can record safely when connectivity fails.',
+      'Strategic redesign of Georgia Aquarium’s Dive Program in the Cloud (DPIC): offline-sync as the MVP for a “bad internet” environment, heuristic-driven IA before visual polish, and logging flows that keep divers focused on operations—not the UI.',
     accent: 'from-orange-500/20 to-cyan-900/20',
   },
   {
@@ -123,13 +247,18 @@ export const projects = [
 export const experience = [
   {
     company: 'SEI (Strategic Education, Inc.)',
-    role: 'Product Designer — product design & UX/UI',
+    role: 'UI/UX Designer · Product Designer',
     dates: 'Aug 2022 — Present',
     highlights: [
-      '↑ Email conversion ~300% via A/B tests and research-informed UI.',
-      'Product design and build: Jynx — AI event networking with Teams integration for 300+ leaders (Cursor, Vercel, Supabase; jynxnetworking.app).',
-      'AI-integrated enrollment & internal tools for Capella & Strayer — 50,000+ users; stronger leads across web & email.',
-      'Usability testing, design systems with dev/copy/PM; AI-driven workflows & personalization.',
+      'Improved email conversion rates by 300% through A/B testing and user research insights.',
+      'Designed AI-integrated enrollment and internal workflow tools for Capella and Strayer University, impacting 50,000+ users and increasing lead generation across web and email campaigns.',
+      'Led 20+ usability testing sessions with iterative design cycles, improving accessibility and task completion across key enrollment flows.',
+      'Designed AI-powered user experiences using LLMs, including prompt flows and conversational interfaces for student-facing products.',
+      'Collaborated with engineering on AI feature development, evaluating model outputs for usability and refining interaction patterns.',
+      'Conducted prompt engineering and rapid AI prototyping to accelerate design-to-development handoff.',
+      'Maintained and expanded a design system used across 8+ product teams, ensuring consistency and WCAG accessibility compliance.',
+      'Introduced agentic AI workflows and AI-assisted design tooling.',
+      'Winner of companywide AI Hackathon.',
     ],
   },
   {
@@ -137,15 +266,12 @@ export const experience = [
     role: 'UX Designer (Contract)',
     dates: 'Mar 2022 — Aug 2022',
     highlights: [
-      'Designed UI/UX for internal SaaS compliance tools at Walmart Global Tech — including an anti-money laundering tracking dashboard and a legal claims search platform supporting financial crimes and legal operations teams.',
-    ],
-  },
-  {
-    company: 'Michael Coleman Creative Agency',
-    role: 'Digital Designer',
-    dates: 'Dec 2021 — Feb 2022',
-    highlights: [
-      'Digital projects bridging dev and design — UI, banners, and brand assets.',
+      'Designed enterprise SaaS compliance tools for Walmart Global Tech’s anti-money laundering division — including a suspicious activity tracking dashboard and a legal claims lookup application — supporting a compliance program that has blocked over $700M in fraudulent money transfers.',
+      'Partnered with product managers and engineers in Agile sprints to define requirements and deliver compliance UX on tight timelines.',
+      'Conducted stakeholder workshops and created user flows and journey maps for complex financial compliance workflows.',
+      'Reduced workflow friction for compliance analysts through information architecture improvements and streamlined dashboard navigation.',
+      'Designed enterprise dashboards for high-volume operational teams, translating regulatory requirements into intuitive UI patterns.',
+      'Created design patterns and prototypes informing product roadmaps for internal compliance tools.',
     ],
   },
   {
@@ -153,7 +279,8 @@ export const experience = [
     role: 'Designer',
     dates: 'Dec 2019 — Present',
     highlights: [
-      'AI-enhanced branding, UI, and product interfaces; web, print, and motion focused on UX and conversions.',
+      'Delivered AI-enhanced branding, UI designs, and product interfaces for diverse clients.',
+      'Produced web, print, and motion graphics optimized for user experience and conversions.',
     ],
   },
 ] as const

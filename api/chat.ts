@@ -1,0 +1,85 @@
+import type { VercelRequest, VercelResponse } from '@vercel/node'
+import { buildChatSystemPrompt } from '../src/data/chatKnowledge'
+
+const DEFAULT_MODEL = 'google/gemma-4-31b-it:free'
+const MAX_HISTORY = 10
+
+type ChatMessage = {
+  role: 'user' | 'assistant'
+  content: string
+}
+
+function isValidMessage(msg: unknown): msg is ChatMessage {
+  if (!msg || typeof msg !== 'object') return false
+  const m = msg as ChatMessage
+  return (
+    (m.role === 'user' || m.role === 'assistant') &&
+    typeof m.content === 'string' &&
+    m.content.trim().length > 0 &&
+    m.content.length <= 2000
+  )
+}
+
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' })
+  }
+
+  const apiKey = process.env.OPENROUTER_API_KEY
+  if (!apiKey) {
+    return res.status(500).json({ error: 'Chat is not configured' })
+  }
+
+  const body = req.body as { messages?: unknown }
+  if (!Array.isArray(body.messages) || body.messages.length === 0) {
+    return res.status(400).json({ error: 'Messages required' })
+  }
+
+  const messages = body.messages.filter(isValidMessage).slice(-MAX_HISTORY)
+  if (messages.length === 0) {
+    return res.status(400).json({ error: 'Valid messages required' })
+  }
+
+  const model = process.env.OPENROUTER_MODEL ?? DEFAULT_MODEL
+
+  try {
+    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+        'HTTP-Referer': 'https://camilagonzalez.xyz',
+        'X-Title': 'Camila Gonzalez Portfolio',
+      },
+      body: JSON.stringify({
+        model,
+        messages: [
+          { role: 'system', content: buildChatSystemPrompt() },
+          ...messages,
+        ],
+        max_tokens: 400,
+        temperature: 0.4,
+      }),
+    })
+
+    if (!response.ok) {
+      const errText = await response.text()
+      console.error('OpenRouter error:', response.status, errText)
+      return res.status(502).json({ error: 'AI service unavailable' })
+    }
+
+    const data = (await response.json()) as {
+      choices?: { message?: { content?: string } }[]
+    }
+    const reply = data.choices?.[0]?.message?.content?.trim()
+
+    if (!reply) {
+      return res.status(502).json({ error: 'Empty response from AI' })
+    }
+
+    return res.status(200).json({ reply })
+  } catch (err) {
+    console.error('Chat API error:', err)
+    return res.status(500).json({ error: 'Failed to get response' })
+  }
+}

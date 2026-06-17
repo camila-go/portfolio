@@ -6,8 +6,19 @@ React + TypeScript + Vite portfolio site. Password-protected; deploys to Vercel 
 
 ```bash
 npm install
-npm run dev
+npm run dev          # UI only (Vite)
 ```
+
+### Terminal chat (OpenRouter)
+
+The homepage terminal calls `/api/chat` (Vercel serverless). To test locally:
+
+1. Copy `.env.example` → `.env.local` and set `OPENROUTER_API_KEY` ([openrouter.ai/keys](https://openrouter.ai/keys)).
+2. Run `npx vercel dev` (installs Vercel CLI if needed) — serves Vite + API routes together.
+
+Optional: `OPENROUTER_MODEL` defaults to `google/gemma-4-31b-it:free`.
+
+**Production:** Vercel → Project → Settings → Environment Variables → add `OPENROUTER_API_KEY` (and optionally `OPENROUTER_MODEL`). Redeploy after adding.
 
 ## Build
 
@@ -51,5 +62,6 @@ In GoDaddy → **camilagonzalez.xyz** → **Manage DNS**:
 
 - [ ] `https://camilagonzalez.xyz` — password gate, then home
 - [ ] `https://camilagonzalez.xyz/work/jynx-networking` — direct URL works
-- [ ] `https://camilagonzalez.xyz/cGonzalezResume2025.pdf` — résumé downloads
+- [ ] `https://camilagonzalez.xyz/cGonzalezResume2026.pdf` — résumé downloads
+- [ ] Homepage terminal — ask "What is Jynx?" and get a grounded answer
 - [ ] HTTPS padlock in browser

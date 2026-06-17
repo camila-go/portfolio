@@ -75,3 +75,102 @@
 .syntax-comment {
   color: var(--color-cami-muted);
 }
+
+/* ── Scroll reveal & ambient motion ── */
+.reveal {
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform, filter;
+}
+
+.reveal-fade-up {
+  opacity: 0;
+  transform: translateY(1.25rem);
+}
+
+.reveal-fade-in {
+  opacity: 0;
+}
+
+.reveal-slide-left {
+  opacity: 0;
+  transform: translateX(-1.5rem);
+}
+
+.reveal-slide-right {
+  opacity: 0;
+  transform: translateX(1.5rem);
+}
+
+.reveal-blur-up {
+  opacity: 0;
+  transform: translateY(1rem);
+  filter: blur(6px);
+}
+
+.reveal-scale-in {
+  opacity: 0;
+  transform: scale(0.97);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+@keyframes cami-grid-drift {
+  0% {
+    background-position: 0 0, 0 0;
+  }
+  100% {
+    background-position: 0 48px, 64px 0;
+  }
+}
+
+@keyframes cami-status-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .cami-grid-animated {
+    animation: cami-grid-drift 18s linear infinite;
+  }
+
+  .cami-status-pulse {
+    animation: cami-status-pulse 2.8s ease-in-out infinite;
+  }
+
+  .hover-lift {
+    transition:
+      transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.35s ease,
+      box-shadow 0.35s ease;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-3px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal.is-visible {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
