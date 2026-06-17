@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { buildChatSystemPrompt } from '../src/data/chatKnowledge'
+import { SYSTEM_PROMPT } from './lib/systemPrompt'
 
 const DEFAULT_MODEL = 'google/gemma-4-31b-it:free'
 const MAX_HISTORY = 10
@@ -30,7 +30,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(500).json({ error: 'Chat is not configured' })
   }
 
-  const body = req.body as { messages?: unknown }
+  const body = (req.body ?? {}) as { messages?: unknown }
   if (!Array.isArray(body.messages) || body.messages.length === 0) {
     return res.status(400).json({ error: 'Messages required' })
   }
@@ -53,10 +53,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       },
       body: JSON.stringify({
         model,
-        messages: [
-          { role: 'system', content: buildChatSystemPrompt() },
-          ...messages,
-        ],
+        messages: [{ role: 'system', content: SYSTEM_PROMPT }, ...messages],
         max_tokens: 400,
         temperature: 0.4,
       }),

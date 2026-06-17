@@ -59,10 +59,18 @@ export function TerminalPrompt() {
         body: JSON.stringify({ messages: nextTurns }),
       })
 
-      const data = (await res.json()) as { reply?: string; error?: string }
+      const raw = await res.text()
+      let data: { reply?: string; error?: string } = {}
+      try {
+        data = JSON.parse(raw) as { reply?: string; error?: string }
+      } catch {
+        throw new Error(
+          res.ok ? 'Invalid response from server' : 'Connection failed — try again in a moment.',
+        )
+      }
 
       if (!res.ok) {
-        throw new Error(data.error ?? 'Request failed')
+        throw new Error(data.error ?? `Request failed (${res.status})`)
       }
 
       if (!data.reply) {
@@ -70,8 +78,16 @@ export function TerminalPrompt() {
       }
 
       setTurns((prev) => [...prev, { role: 'assistant', content: data.reply! }])
-    } catch {
-      setError('Connection failed — try again in a moment.')
+    } catch (err) {
+      const message =
+        err instanceof Error && err.message
+          ? err.message
+          : 'Connection failed — try again in a moment.'
+      setError(
+        message === 'Chat is not configured'
+          ? 'Chat is not configured on the server yet.'
+          : message,
+      )
     } finally {
       setLoading(false)
     }
