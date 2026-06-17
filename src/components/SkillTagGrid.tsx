@@ -8,7 +8,7 @@ export function SkillTagGrid() {
   return (
     <div
       ref={containerRef}
-      className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+      className="grid gap-6 overflow-visible sm:grid-cols-2 lg:grid-cols-3"
     >
       {skillGroups.map((group, gi) => (
         <Reveal key={group.label} variant="fade-up" delay={gi * 60}>
@@ -23,7 +23,7 @@ export function SkillTagGrid() {
                   label={tag}
                   activeKey={activeKey}
                   onToggle={toggle}
-                  className="border-cami-border/80 bg-cami-surface/50 text-cami-muted hover:border-cami-accent/40 hover:text-cami-fg"
+                  className="border-cami-border bg-cami-surface/80 text-cami-fg/90 hover:border-cami-accent/50 hover:text-cami-fg"
                 />
               ))}
             </div>

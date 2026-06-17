@@ -21,6 +21,8 @@ export const skillDescriptions: Record<string, string> = {
     'Patterns for prompts, model outputs, errors, and opt-in when AI is in the product.',
 
   // Design tools
+  'Figma suite':
+    'Figma for UI design, prototyping, and design systems — including Make, Buzz, and MCP integrations.',
   Figma: 'Primary tool for UI design, prototyping, and design systems.',
   'Figma MCP': 'Connecting Figma to AI dev tools for design-to-code workflows.',
   'Adobe XD': 'Prototyping and screen design for web and mobile flows.',

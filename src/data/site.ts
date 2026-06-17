@@ -53,8 +53,7 @@ export const skillGroups = [
   {
     label: 'Design',
     tags: [
-      'Figma',
-      'Figma MCP',
+      'Figma suite',
       'Adobe XD',
       'Photoshop',
       'Illustrator',

@@ -131,7 +131,7 @@ export function TerminalPrompt() {
                   key={suggestion}
                   type="button"
                   onClick={() => handleSuggestion(suggestion)}
-                  className="rounded-full border border-cami-border/80 bg-cami-surface/60 px-3 py-1.5 text-left text-xs text-cami-fg/80 transition hover:border-cami-cyan/40 hover:bg-cami-surface hover:text-cami-fg"
+                  className="rounded-full border border-cami-border bg-cami-surface/80 px-3 py-1.5 text-left text-xs text-cami-fg transition hover:border-cami-cyan/50 hover:bg-cami-surface"
                 >
                   {suggestion}
                 </button>
@@ -179,7 +179,7 @@ export function TerminalPrompt() {
               <span className="inline-flex min-w-0 items-center">
                 <input
                   ref={inputRef}
-                  className={`min-w-[9ch] max-w-full border-none bg-transparent text-cami-fg outline-none placeholder:text-cami-muted/50 disabled:opacity-50 ${!input && !loading ? 'caret-transparent' : 'caret-cami-cyan'}`}
+                  className={`min-w-[9ch] max-w-full border-none bg-transparent text-cami-fg outline-none placeholder:text-cami-muted disabled:opacity-50 ${!input && !loading ? 'caret-transparent' : 'caret-cami-cyan'}`}
                   style={{ width: `${Math.max(9, input.length + 1)}ch` }}
                   placeholder="Type here…"
                   aria-label="Ask about Camila's work, skills, or experience"
@@ -200,12 +200,12 @@ export function TerminalPrompt() {
                 ) : null}
               </span>
             </label>
-            <p className="mt-2 text-[10px] text-cami-muted/70">
-              Press <kbd className="text-cami-muted">Enter</kbd> to send · type{' '}
+            <p className="mt-2 text-[11px] text-cami-muted">
+              Press <kbd className="rounded border border-cami-border bg-cami-void px-1 text-cami-fg">Enter</kbd> to send · type{' '}
               <button
                 type="button"
                 onClick={() => void submitText('help')}
-                className="text-cami-cyan/90 underline-offset-2 hover:text-cami-cyan hover:underline"
+                className="text-cami-cyan underline-offset-2 hover:underline"
               >
                 help
               </button>{' '}

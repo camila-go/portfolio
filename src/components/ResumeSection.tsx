@@ -146,7 +146,7 @@ export function ResumeSection() {
                       label={s}
                       activeKey={strengths.activeKey}
                       onToggle={strengths.toggle}
-                      className="border-cami-border/70 bg-cami-surface/40 text-cami-muted hover:border-cami-cyan/40"
+                      className="border-cami-border bg-cami-surface/70 text-cami-fg/90 hover:border-cami-cyan/50"
                     />
                   ))}
                 </div>

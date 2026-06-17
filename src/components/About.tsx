@@ -49,7 +49,7 @@ export function About() {
           </Reveal>
 
           <Reveal variant="slide-right" delay={120}>
-            <div className="hover-lift rounded-2xl border border-cami-border/80 bg-cami-surface/50 p-6 backdrop-blur-sm">
+            <div className="hover-lift rounded-2xl border border-cami-border bg-cami-surface/80 p-6 backdrop-blur-sm">
               <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-cami-muted">
                 <span className="text-cami-mint">//</span> core_strengths[]
               </p>
@@ -63,7 +63,7 @@ export function About() {
                     label={s}
                     activeKey={strengths.activeKey}
                     onToggle={strengths.toggle}
-                    className="border-cami-border/70 bg-cami-void/40 px-3 text-cami-fg/90 hover:border-cami-cyan/40 hover:text-cami-cyan"
+                    className="border-cami-border bg-cami-void/60 px-3 text-cami-fg hover:border-cami-cyan/50 hover:text-cami-cyan"
                   />
                 ))}
               </div>
@@ -75,7 +75,7 @@ export function About() {
           <h3 className="font-mono text-[11px] uppercase tracking-[0.25em] text-cami-muted">
             <span className="text-cami-cyan">//</span> core_competencies
           </h3>
-          <p className="mt-4 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm leading-relaxed text-cami-muted/90">
+          <p className="mt-4 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm leading-relaxed text-cami-muted">
             {coreCompetencies.map((item, i) => (
               <span key={item} className="inline-flex items-center gap-2">
                 {i > 0 && (
