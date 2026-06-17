@@ -1,4 +1,5 @@
 import { Reveal } from './Reveal'
+import { SkillChip, useSkillChipGroup } from './SkillChip'
 import { SkillTagGrid } from './SkillTagGrid'
 import {
   coreCompetencies,
@@ -7,6 +8,8 @@ import {
 } from '../data/site'
 
 export function About() {
+  const strengths = useSkillChipGroup()
+
   return (
     <section
       id="about"
@@ -50,14 +53,18 @@ export function About() {
               <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-cami-muted">
                 <span className="text-cami-mint">//</span> core_strengths[]
               </p>
-              <div className="mt-4 flex flex-wrap gap-2">
+              <div
+                ref={strengths.containerRef}
+                className="mt-4 flex flex-wrap gap-2"
+              >
                 {coreStrengths.map((s) => (
-                  <span
+                  <SkillChip
                     key={s}
-                    className="rounded-full border border-cami-border/70 bg-cami-void/40 px-3 py-1 font-mono text-[11px] text-cami-fg/90 transition hover:border-cami-cyan/40 hover:text-cami-cyan"
-                  >
-                    {s}
-                  </span>
+                    label={s}
+                    activeKey={strengths.activeKey}
+                    onToggle={strengths.toggle}
+                    className="border-cami-border/70 bg-cami-void/40 px-3 text-cami-fg/90 hover:border-cami-cyan/40 hover:text-cami-cyan"
+                  />
                 ))}
               </div>
             </div>

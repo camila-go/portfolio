@@ -7,10 +7,16 @@ type ChatTurn = {
   content: string
 }
 
-const HELP_TEXT = `Ask about Camila's work, skills, or experience. Try:
+const HELP_TEXT = `Try asking:
   • What did you build at SEI?
   • Tell me about Jynx
   • What are your AI skills?`
+
+const SUGGESTIONS = [
+  'What did you build at SEI?',
+  'Tell me about Jynx',
+  'What are your AI skills?',
+] as const
 
 export function TerminalPrompt() {
   const [input, setInput] = useState('')
@@ -18,80 +24,94 @@ export function TerminalPrompt() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const transcriptRef = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     const el = transcriptRef.current
     if (el) el.scrollTop = el.scrollHeight
   }, [turns, loading, error])
 
-  const send = useCallback(async () => {
-    const text = input.trim()
-    if (!text || loading) return
+  const submitText = useCallback(
+    async (text: string) => {
+      const trimmed = text.trim()
+      if (!trimmed || loading) return
 
-    setError(null)
-
-    if (text.toLowerCase() === 'clear') {
-      setTurns([])
+      setError(null)
       setInput('')
-      return
-    }
 
-    if (text.toLowerCase() === 'help') {
-      setTurns((prev) => [
-        ...prev,
-        { role: 'user', content: text },
-        { role: 'assistant', content: HELP_TEXT },
-      ])
-      setInput('')
-      return
-    }
+      if (trimmed.toLowerCase() === 'clear') {
+        setTurns([])
+        return
+      }
 
-    const userTurn: ChatTurn = { role: 'user', content: text }
-    const nextTurns = [...turns, userTurn]
-    setTurns(nextTurns)
-    setInput('')
-    setLoading(true)
+      if (trimmed.toLowerCase() === 'help') {
+        setTurns((prev) => [
+          ...prev,
+          { role: 'user', content: trimmed },
+          { role: 'assistant', content: HELP_TEXT },
+        ])
+        return
+      }
 
-    try {
-      const res = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: nextTurns }),
-      })
+      const userTurn: ChatTurn = { role: 'user', content: trimmed }
+      const nextTurns = [...turns, userTurn]
+      setTurns(nextTurns)
+      setLoading(true)
 
-      const raw = await res.text()
-      let data: { reply?: string; error?: string } = {}
       try {
-        data = JSON.parse(raw) as { reply?: string; error?: string }
-      } catch {
-        throw new Error(
-          res.ok ? 'Invalid response from server' : 'Connection failed — try again in a moment.',
+        const res = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ messages: nextTurns }),
+        })
+
+        const raw = await res.text()
+        let data: { reply?: string; error?: string } = {}
+        try {
+          data = JSON.parse(raw) as { reply?: string; error?: string }
+        } catch {
+          throw new Error(
+            res.ok ? 'Invalid response from server' : 'Connection failed — try again in a moment.',
+          )
+        }
+
+        if (!res.ok) {
+          throw new Error(data.error ?? `Request failed (${res.status})`)
+        }
+
+        if (!data.reply) {
+          throw new Error('Empty response')
+        }
+
+        setTurns((prev) => [...prev, { role: 'assistant', content: data.reply! }])
+      } catch (err) {
+        const message =
+          err instanceof Error && err.message
+            ? err.message
+            : 'Connection failed — try again in a moment.'
+        setError(
+          message === 'Chat is not configured'
+            ? 'Chat is not configured on the server yet.'
+            : message,
         )
+      } finally {
+        setLoading(false)
       }
+    },
+    [loading, turns],
+  )
 
-      if (!res.ok) {
-        throw new Error(data.error ?? `Request failed (${res.status})`)
-      }
+  const send = useCallback(() => {
+    void submitText(input)
+  }, [input, submitText])
 
-      if (!data.reply) {
-        throw new Error('Empty response')
-      }
-
-      setTurns((prev) => [...prev, { role: 'assistant', content: data.reply! }])
-    } catch (err) {
-      const message =
-        err instanceof Error && err.message
-          ? err.message
-          : 'Connection failed — try again in a moment.'
-      setError(
-        message === 'Chat is not configured'
-          ? 'Chat is not configured on the server yet.'
-          : message,
-      )
-    } finally {
-      setLoading(false)
-    }
-  }, [input, loading, turns])
+  const handleSuggestion = useCallback(
+    (suggestion: string) => {
+      void submitText(suggestion)
+      inputRef.current?.focus()
+    },
+    [submitText],
+  )
 
   return (
     <Reveal variant="fade-up">
@@ -100,21 +120,29 @@ export function TerminalPrompt() {
         aria-label="Ask about Camila"
       >
         <div className="mx-auto max-w-3xl font-mono text-sm">
-          <p className="mb-4 text-[11px] uppercase tracking-widest text-cami-muted">
+          <p className="mb-5 text-[11px] uppercase tracking-widest text-cami-muted">
             <span className="text-cami-cyan">//</span> ask_about_cami
           </p>
 
+          {turns.length === 0 && !loading && !error ? (
+            <div className="mb-4 flex flex-wrap gap-2">
+              {SUGGESTIONS.map((suggestion) => (
+                <button
+                  key={suggestion}
+                  type="button"
+                  onClick={() => handleSuggestion(suggestion)}
+                  className="rounded-full border border-cami-border/80 bg-cami-surface/60 px-3 py-1.5 text-left text-xs text-cami-fg/80 transition hover:border-cami-cyan/40 hover:bg-cami-surface hover:text-cami-fg"
+                >
+                  {suggestion}
+                </button>
+              ))}
+            </div>
+          ) : null}
+
           <div
             ref={transcriptRef}
-            className="max-h-64 space-y-3 overflow-y-auto pr-1"
+            className={`space-y-3 overflow-y-auto pr-1 ${turns.length > 0 || loading || error ? 'mb-4 max-h-64' : ''}`}
           >
-            {turns.length === 0 && !loading && !error ? (
-              <p className="text-cami-muted/70">
-                Ask about my work, skills, or experience — or type{' '}
-                <span className="text-cami-fg/80">help</span> for ideas.
-              </p>
-            ) : null}
-
             {turns.map((turn, i) => (
               <div key={`${turn.role}-${i}`}>
                 {turn.role === 'user' ? (
@@ -143,23 +171,47 @@ export function TerminalPrompt() {
             ) : null}
           </div>
 
-          <label className="mt-4 flex flex-wrap items-center gap-2 border-t border-cami-border/50 pt-4">
-            <span className="text-cami-mint">
-              {site.shortName.toLowerCase()}@{site.handle}:~$
-            </span>
-            <input
-              className="min-w-[12rem] flex-1 border-none bg-transparent text-cami-fg outline-none placeholder:text-cami-muted/60 disabled:opacity-50"
-              placeholder="ask about my work, skills, or experience"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') void send()
-              }}
-              disabled={loading}
-              autoComplete="off"
-              spellCheck={false}
-            />
-          </label>
+          <div className="rounded-xl border border-cami-border bg-cami-surface/80 px-3 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] transition focus-within:border-cami-cyan/50 focus-within:ring-1 focus-within:ring-cami-cyan/30">
+            <label className="flex flex-wrap items-center gap-2">
+              <span className="shrink-0 text-cami-mint">
+                {site.shortName.toLowerCase()}@{site.handle}:~$
+              </span>
+              <span className="inline-flex min-w-0 items-center">
+                <input
+                  ref={inputRef}
+                  className={`min-w-[9ch] max-w-full border-none bg-transparent text-cami-fg outline-none placeholder:text-cami-muted/50 disabled:opacity-50 ${!input && !loading ? 'caret-transparent' : 'caret-cami-cyan'}`}
+                  style={{ width: `${Math.max(9, input.length + 1)}ch` }}
+                  placeholder="Type here…"
+                  aria-label="Ask about Camila's work, skills, or experience"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') send()
+                  }}
+                  disabled={loading}
+                  autoComplete="off"
+                  spellCheck={false}
+                />
+                {!input && !loading ? (
+                  <span
+                    className="cami-terminal-cursor -ml-px h-[1.1em] w-2 shrink-0 bg-cami-cyan/80"
+                    aria-hidden
+                  />
+                ) : null}
+              </span>
+            </label>
+            <p className="mt-2 text-[10px] text-cami-muted/70">
+              Press <kbd className="text-cami-muted">Enter</kbd> to send · type{' '}
+              <button
+                type="button"
+                onClick={() => void submitText('help')}
+                className="text-cami-cyan/90 underline-offset-2 hover:text-cami-cyan hover:underline"
+              >
+                help
+              </button>{' '}
+              for more
+            </p>
+          </div>
         </div>
       </section>
     </Reveal>

@@ -1,4 +1,5 @@
 import { Reveal } from './Reveal'
+import { SkillChip, useSkillChipGroup } from './SkillChip'
 import {
   achievements,
   certifications,
@@ -9,6 +10,8 @@ import {
 } from '../data/site'
 
 export function ResumeSection() {
+  const strengths = useSkillChipGroup()
+
   return (
     <section
       id="resume"
@@ -133,14 +136,18 @@ export function ResumeSection() {
                 <h3 className="mt-8 font-mono text-[11px] uppercase tracking-[0.25em] text-cami-rose">
                   // core_strengths
                 </h3>
-                <div className="mt-4 flex flex-wrap gap-2">
+                <div
+                  ref={strengths.containerRef}
+                  className="mt-4 flex flex-wrap gap-2"
+                >
                   {coreStrengths.map((s) => (
-                    <span
+                    <SkillChip
                       key={s}
-                      className="rounded-full border border-cami-border/70 bg-cami-surface/40 px-2.5 py-1 font-mono text-[11px] text-cami-muted transition hover:border-cami-cyan/40"
-                    >
-                      {s}
-                    </span>
+                      label={s}
+                      activeKey={strengths.activeKey}
+                      onToggle={strengths.toggle}
+                      className="border-cami-border/70 bg-cami-surface/40 text-cami-muted hover:border-cami-cyan/40"
+                    />
                   ))}
                 </div>
               </div>
