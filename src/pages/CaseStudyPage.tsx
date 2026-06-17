@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
+import { AutoLinkText } from '../components/caseStudy/AutoLinkText'
 import { FigurePlaceholder } from '../components/caseStudy/FigurePlaceholder'
 import { FooterNav } from '../components/FooterNav'
 import { Reveal } from '../components/Reveal'
@@ -15,6 +16,30 @@ function OrangeBullet() {
       className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-orange-500"
       aria-hidden
     />
+  )
+}
+
+function formatLiveUrl(url: string): string {
+  try {
+    const parsed = new URL(url)
+    const path = parsed.pathname === '/' ? '' : parsed.pathname
+    return `${parsed.hostname}${path}`
+  } catch {
+    return url
+  }
+}
+
+function LiveSiteCta({ href, label }: { href: string; label: string }) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noreferrer"
+      className="inline-flex items-center gap-2 rounded-full border border-orange-500/40 bg-orange-500/10 px-5 py-2.5 font-mono text-xs uppercase tracking-widest text-orange-300 transition hover:border-orange-400/60 hover:bg-orange-500/15"
+    >
+      {label}
+      <span aria-hidden>↗</span>
+    </a>
   )
 }
 
@@ -70,14 +95,10 @@ export default function CaseStudyPage() {
             {study.liveUrl ? (
               <Reveal trigger="mount" variant="fade-up" delay={240}>
                 <p className="mt-8">
-                  <a
+                  <LiveSiteCta
                     href={study.liveUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center gap-2 rounded-full border border-orange-500/40 bg-orange-500/10 px-5 py-2.5 font-mono text-xs uppercase tracking-widest text-orange-300 transition hover:border-orange-400/60 hover:bg-orange-500/15"
-                  >
-                    {study.liveCtaLabel ?? 'View live site'}
-                  </a>
+                    label={study.liveCtaLabel ?? 'View live site'}
+                  />
                 </p>
               </Reveal>
             ) : null}
@@ -108,7 +129,9 @@ export default function CaseStudyPage() {
                 </h2>
                 <div className="mt-6 space-y-4 text-base leading-relaxed text-zinc-400">
                   {study.problem.paragraphs.map((p) => (
-                    <p key={p}>{p}</p>
+                    <p key={p}>
+                      <AutoLinkText text={p} />
+                    </p>
                   ))}
                 </div>
                 <ul className="mt-8 space-y-3">
@@ -132,7 +155,9 @@ export default function CaseStudyPage() {
                 </h2>
                 <div className="mt-6 space-y-4 text-base leading-relaxed text-zinc-400">
                   {study.solution.paragraphs.map((p) => (
-                    <p key={p}>{p}</p>
+                    <p key={p}>
+                      <AutoLinkText text={p} />
+                    </p>
                   ))}
                 </div>
                 <ul className="mt-8 space-y-3">
@@ -162,6 +187,23 @@ export default function CaseStudyPage() {
                       <dd className="mt-1 text-sm text-zinc-200">{row.value}</dd>
                     </div>
                   ))}
+                  {study.liveUrl ? (
+                    <div>
+                      <dt className="font-mono text-[10px] uppercase tracking-wider text-zinc-500">
+                        Live product
+                      </dt>
+                      <dd className="mt-1 text-sm">
+                        <a
+                          href={study.liveUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-orange-400 underline-offset-2 transition hover:text-orange-300 hover:underline"
+                        >
+                          {formatLiveUrl(study.liveUrl)}
+                        </a>
+                      </dd>
+                    </div>
+                  ) : null}
                 </dl>
               </div>
               </aside>
@@ -181,7 +223,9 @@ export default function CaseStudyPage() {
               </h2>
               <div className="mt-6 space-y-4 text-base leading-relaxed text-zinc-400">
                 {sec.paragraphs.map((p) => (
-                  <p key={p}>{p}</p>
+                  <p key={p}>
+                    <AutoLinkText text={p} />
+                  </p>
                 ))}
               </div>
               {sec.bullets && sec.bullets.length > 0 ? (
@@ -216,6 +260,22 @@ export default function CaseStudyPage() {
             </Reveal>
           </section>
         ))}
+
+        {study.liveUrl ? (
+          <section className="border-t border-zinc-900 px-4 py-16">
+            <Reveal variant="fade-up" className="mx-auto max-w-4xl text-center">
+              <p className="text-base text-zinc-400">
+                Explore the shipped GS26 welcome experience.
+              </p>
+              <p className="mt-6">
+                <LiveSiteCta
+                  href={study.liveUrl}
+                  label={study.liveCtaLabel ?? 'View live site'}
+                />
+              </p>
+            </Reveal>
+          </section>
+        ) : null}
 
         <section
           className="border-t border-zinc-900 px-4 py-20"

@@ -56,7 +56,7 @@ export const caseStudies: CaseStudy[] = [
       'AI event networking at scale — with Microsoft Teams — for 300+ people.',
     dek: 'Jynx is a shipped web experience for Strategic Education, Inc. leadership conferences (including GS26-style summit networking). I led product design end-to-end and built the app — AI-assisted matching and Teams integration — so attendees find the right connections during large internal events without leaving how they already work. The build used Cursor for development, Vercel for hosting and deploys, and Supabase for backend and data.',
     liveUrl: 'https://www.jynxnetworking.app/welcome',
-    liveCtaLabel: 'Open GS26 welcome (live)',
+    liveCtaLabel: 'Visit Jynx app (live)',
     heroFigureCaption:
       'Jynx — event networking UI (add screenshots from production)',
     meta: [

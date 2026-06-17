@@ -216,7 +216,7 @@ export const projects = [
       'Product design and build for this shipped networking app at SEI leadership conferences: AI-assisted matching and Microsoft Teams integration for 300+ attendees. Built with Cursor, Vercel, and Supabase — so leaders connect without leaving how they already work.',
     accent: 'from-fuchsia-500/25 to-cyan-500/10',
     liveUrl: 'https://www.jynxnetworking.app/welcome',
-    liveLabel: 'GS26 welcome page',
+    liveLabel: 'Visit Jynx app',
   },
   {
     id: 'dpic-dive-cloud',
