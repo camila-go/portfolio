@@ -9,10 +9,14 @@ import {
 import { createPortal } from 'react-dom'
 import { getSkillDescription } from '../data/skillDescriptions'
 
-type TooltipPosition = {
+const VIEWPORT_PAD = 16
+const TOOLTIP_MAX_WIDTH = 272
+
+type TooltipAnchor = {
   left: number
   top: number
   placement: 'above' | 'below'
+  maxWidth: number
 }
 
 type SkillChipProps = {
@@ -23,31 +27,78 @@ type SkillChipProps = {
   onToggle: (key: string) => void
 }
 
+function computeTooltipAnchor(rect: DOMRect): TooltipAnchor {
+  const maxWidth = Math.min(
+    TOOLTIP_MAX_WIDTH,
+    window.innerWidth - VIEWPORT_PAD * 2,
+  )
+  const spaceBelow = window.innerHeight - rect.bottom
+  const spaceAbove = rect.top
+  const placement =
+    spaceBelow < 120 && spaceAbove > spaceBelow ? 'above' : 'below'
+
+  const centerX = rect.left + rect.width / 2
+  const half = maxWidth / 2
+  const left = Math.max(
+    VIEWPORT_PAD + half,
+    Math.min(centerX, window.innerWidth - VIEWPORT_PAD - half),
+  )
+
+  return {
+    left,
+    top: placement === 'below' ? rect.bottom : rect.top,
+    placement,
+    maxWidth,
+  }
+}
+
 function SkillChipTooltip({
   id,
   text,
-  position,
+  anchor,
 }: {
   id: string
   text: string
-  position: TooltipPosition
+  anchor: TooltipAnchor
 }) {
+  const tooltipRef = useRef<HTMLParagraphElement>(null)
+  const [left, setLeft] = useState(anchor.left)
+
+  useLayoutEffect(() => {
+    setLeft(anchor.left)
+    const el = tooltipRef.current
+    if (!el) return
+
+    const rect = el.getBoundingClientRect()
+    let adjusted = anchor.left
+
+    if (rect.left < VIEWPORT_PAD) {
+      adjusted += VIEWPORT_PAD - rect.left
+    } else if (rect.right > window.innerWidth - VIEWPORT_PAD) {
+      adjusted -= rect.right - (window.innerWidth - VIEWPORT_PAD)
+    }
+
+    setLeft(adjusted)
+  }, [anchor, text])
+
   const transform =
-    position.placement === 'above'
+    anchor.placement === 'above'
       ? 'translate(-50%, calc(-100% - 8px))'
       : 'translate(-50%, 8px)'
 
   return createPortal(
     <p
+      ref={tooltipRef}
       id={id}
       role="tooltip"
       style={{
         position: 'fixed',
-        left: position.left,
-        top: position.top,
+        left,
+        top: anchor.top,
         transform,
+        maxWidth: anchor.maxWidth,
       }}
-      className="pointer-events-none z-[200] w-max max-w-[17rem] rounded-lg border border-cami-border bg-cami-surface px-3.5 py-2.5 text-left text-xs leading-relaxed text-cami-fg shadow-[0_8px_32px_rgba(0,0,0,0.55)]"
+      className="pointer-events-none z-[200] rounded-lg border border-cami-border bg-cami-surface px-3.5 py-2.5 text-left text-xs leading-relaxed break-words text-cami-fg shadow-[0_8px_32px_rgba(0,0,0,0.55)]"
     >
       {text}
     </p>,
@@ -65,32 +116,24 @@ export function SkillChip({
   const isActive = activeKey === label
   const descId = useId()
   const buttonRef = useRef<HTMLButtonElement>(null)
-  const [tooltipPosition, setTooltipPosition] = useState<TooltipPosition | null>(
-    null,
-  )
+  const [tooltipAnchor, setTooltipAnchor] = useState<TooltipAnchor | null>(null)
   const text = description ?? getSkillDescription(label)
 
   useLayoutEffect(() => {
     if (!isActive || !buttonRef.current) {
-      setTooltipPosition(null)
+      setTooltipAnchor(null)
       return
     }
 
     const updatePosition = () => {
       const rect = buttonRef.current?.getBoundingClientRect()
       if (!rect) return
-
-      const spaceBelow = window.innerHeight - rect.bottom
-      const placement = spaceBelow < 100 ? 'above' : 'below'
-
-      setTooltipPosition({
-        left: rect.left + rect.width / 2,
-        top: placement === 'below' ? rect.bottom : rect.top,
-        placement,
-      })
+      setTooltipAnchor(computeTooltipAnchor(rect))
     }
 
+    buttonRef.current.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
     updatePosition()
+
     window.addEventListener('scroll', updatePosition, true)
     window.addEventListener('resize', updatePosition)
     return () => {
@@ -115,8 +158,8 @@ export function SkillChip({
       >
         {label}
       </button>
-      {isActive && tooltipPosition ? (
-        <SkillChipTooltip id={descId} text={text} position={tooltipPosition} />
+      {isActive && tooltipAnchor ? (
+        <SkillChipTooltip id={descId} text={text} anchor={tooltipAnchor} />
       ) : null}
     </>
   )
@@ -133,7 +176,7 @@ export function useSkillChipGroup() {
   useEffect(() => {
     if (!activeKey) return
 
-    const onPointerDown = (event: MouseEvent) => {
+    const onPointerDown = (event: PointerEvent) => {
       if (
         containerRef.current &&
         !containerRef.current.contains(event.target as Node)
@@ -146,10 +189,10 @@ export function useSkillChipGroup() {
       if (event.key === 'Escape') setActiveKey(null)
     }
 
-    document.addEventListener('mousedown', onPointerDown)
+    document.addEventListener('pointerdown', onPointerDown)
     document.addEventListener('keydown', onKeyDown)
     return () => {
-      document.removeEventListener('mousedown', onPointerDown)
+      document.removeEventListener('pointerdown', onPointerDown)
       document.removeEventListener('keydown', onKeyDown)
     }
   }, [activeKey])
