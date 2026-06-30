@@ -124,7 +124,7 @@ export const caseStudies: CaseStudy[] = [
         ],
         figures: [
           figure('User journey — event phases, touchpoints & emotional peaks', 'wide', '/case-studies/jynx/jynx-journey-map.webp'),
-          figure('Early IA — profiles, matches, Teams handoff (placeholder)', 'pair'),
+          figure('Information architecture — onboarding \u2192 matches \u2192 Teams handoff', 'pair', '/case-studies/jynx/jynx-ia.webp'),
         ],
       },
       {
@@ -149,7 +149,7 @@ export const caseStudies: CaseStudy[] = [
         ],
         figures: [
           figure('AI match cards — \u201cwhy connect\u201d reasoning, desktop & mobile', 'tall', '/case-studies/jynx/jynx-matches.webp'),
-          figure('Gallery — density across breakpoints (placeholder)', 'gallery'),
+          figure('Responsive UI — density across breakpoints, desktop & mobile', 'gallery', '/case-studies/jynx/jynx-gallery.webp'),
         ],
       },
       {
