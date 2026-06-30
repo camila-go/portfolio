@@ -2,6 +2,9 @@ export type CaseStudyFigure = {
   caption: string
   /** Placeholder layout — swap for real assets later */
   variant: 'hero-stack' | 'pair' | 'wide' | 'tall' | 'gallery'
+  /** Optional real asset served from /public; falls back to placeholder when unset */
+  src?: string
+  alt?: string
 }
 
 export type CaseStudySection = {
@@ -28,6 +31,8 @@ export type CaseStudy = {
   liveCtaLabel?: string
   /** Hero figure caption under the placeholder */
   heroFigureCaption?: string
+  /** Hero figure image served from /public (falls back to placeholder when unset) */
+  heroFigureSrc?: string
   meta: { label: string; value: string }[]
   problem: {
     title: string
@@ -43,9 +48,16 @@ export type CaseStudy = {
   takeaways: CaseStudyTakeaway[]
 }
 
-const figure = (caption: string, variant: CaseStudyFigure['variant']): CaseStudyFigure => ({
+const figure = (
+  caption: string,
+  variant: CaseStudyFigure['variant'],
+  src?: string,
+  alt?: string,
+): CaseStudyFigure => ({
   caption,
   variant,
+  ...(src ? { src } : {}),
+  ...(alt ? { alt } : {}),
 })
 
 export const caseStudies: CaseStudy[] = [
@@ -57,8 +69,8 @@ export const caseStudies: CaseStudy[] = [
     dek: 'Jynx is a shipped web experience for Strategic Education, Inc. leadership conferences (including GS26-style summit networking). I led product design end-to-end and built the app — AI-assisted matching and Teams integration — so attendees find the right connections during large internal events without leaving how they already work. The build used Cursor for development, Vercel for hosting and deploys, and Supabase for backend and data.',
     liveUrl: 'https://www.jynxnetworking.app/welcome',
     liveCtaLabel: 'Visit Jynx app (live)',
-    heroFigureCaption:
-      'Jynx — event networking UI (add screenshots from production)',
+    heroFigureCaption: 'Jynx — AI event networking, desktop & mobile',
+    heroFigureSrc: '/case-studies/jynx/jynx-hero.webp',
     meta: [
       {
         label: 'Role',
@@ -111,7 +123,7 @@ export const caseStudies: CaseStudy[] = [
           'I mapped the arc of a multi-day leadership conference: pre-event setup, in-the-moment networking between sessions, and follow-ups after. Each phase had different jobs-to-be-done — from “who should I meet first?” to “how do I continue this conversation in Teams?” — then carried product design through into the screens and code I shipped.',
         ],
         figures: [
-          figure('Journey map — event phases & emotional peaks (placeholder)', 'wide'),
+          figure('User journey — event phases, touchpoints & emotional peaks', 'wide', '/case-studies/jynx/jynx-journey-map.webp'),
           figure('Early IA — profiles, matches, Teams handoff (placeholder)', 'pair'),
         ],
       },
@@ -126,7 +138,7 @@ export const caseStudies: CaseStudy[] = [
           'Faster path from “interesting person” to “real conversation”',
         ],
         figures: [
-          figure('Teams-adjacent flows — states & edge cases (placeholder)', 'pair'),
+          figure('System & Teams handoff — deep links into MS Teams', 'pair', '/case-studies/jynx/jynx-architecture.webp'),
         ],
       },
       {
@@ -136,7 +148,7 @@ export const caseStudies: CaseStudy[] = [
           'Suggestions are only as good as the control users feel they have. Patterns emphasized why a match might make sense, how to accept or dismiss, and how to correct the system over time — critical when reputations and politics are in the room.',
         ],
         figures: [
-          figure('Match cards — transparency, actions, feedback (placeholder)', 'tall'),
+          figure('AI match cards — \u201cwhy connect\u201d reasoning, desktop & mobile', 'tall', '/case-studies/jynx/jynx-matches.webp'),
           figure('Gallery — density across breakpoints (placeholder)', 'gallery'),
         ],
       },
