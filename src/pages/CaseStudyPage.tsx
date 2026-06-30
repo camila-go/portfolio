@@ -110,6 +110,7 @@ export default function CaseStudyPage() {
                   study.heroFigureCaption ??
                   'Product UI exploration — replace with your screens',
                 variant: 'hero-stack',
+                src: study.heroFigureSrc,
               }}
               index={0}
             />

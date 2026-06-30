@@ -7,10 +7,32 @@ export function FigurePlaceholder({
   figure: CaseStudyFigure
   index: number
 }) {
-  const { variant, caption } = figure
+  const { variant, caption, src, alt } = figure
 
   const shell =
     'overflow-hidden rounded-2xl border border-zinc-800/90 bg-zinc-900/80 shadow-[0_24px_80px_rgba(0,0,0,0.35)]'
+
+  if (src) {
+    return (
+      <figure className="group">
+        <div className={`relative ${shell}`}>
+          <img
+            src={src}
+            alt={alt ?? caption}
+            loading="lazy"
+            decoding="async"
+            className="block w-full h-auto"
+          />
+          <span className="absolute bottom-3 left-4 font-mono text-[10px] uppercase tracking-widest text-zinc-400/80">
+            fig. {String(index + 1).padStart(2, '0')}
+          </span>
+        </div>
+        <figcaption className="mt-3 text-center text-sm italic text-zinc-500">
+          {caption}
+        </figcaption>
+      </figure>
+    )
+  }
 
   const inner = (
     <div className="absolute inset-0 bg-gradient-to-br from-zinc-800/50 via-zinc-900 to-zinc-950" />
