@@ -37,13 +37,25 @@ export function Work() {
                     className="hover-lift relative block aspect-[16/10] w-full overflow-hidden rounded-3xl border border-cami-border/70 bg-cami-ink transition duration-300 hover:scale-[1.01] hover:border-cami-accent/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cami-accent"
                     aria-label={`Open case study: ${p.title}`}
                   >
-                    <div
-                      className={`absolute inset-0 bg-gradient-to-br ${p.accent} opacity-90 transition duration-500 group-hover:opacity-100`}
-                      aria-hidden
-                    />
-                    <div className="absolute inset-0 flex items-center justify-center font-mono text-6xl font-semibold text-white/10 transition duration-500 group-hover:scale-105 group-hover:text-white/20">
-                      {p.index}
-                    </div>
+                    {(p as { cover?: string }).cover ? (
+                      <img
+                        src={(p as { cover?: string }).cover}
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                        className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                      />
+                    ) : (
+                      <>
+                        <div
+                          className={`absolute inset-0 bg-gradient-to-br ${p.accent} opacity-90 transition duration-500 group-hover:opacity-100`}
+                          aria-hidden
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center font-mono text-6xl font-semibold text-white/10 transition duration-500 group-hover:scale-105 group-hover:text-white/20">
+                          {p.index}
+                        </div>
+                      </>
+                    )}
                   </Link>
                 </Reveal>
                 <Reveal variant={i % 2 === 0 ? 'slide-left' : 'slide-right'} delay={140}>
